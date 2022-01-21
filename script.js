@@ -1,6 +1,11 @@
 var userAgent = navigator.userAgent,
-    canBePlayed, cellBgColors
+    canBePlayed, cellBgColors, canBeOverflowed = true
 userAgent.includes('Windows') || userAgent.includes('Macintosh') ? canBePlayed = true : canBePlayed = false
+
+if (userAgent.includes('Android') || userAgent.includes('iPhone OS')) {
+    document.body.style.overflowY = 'hidden'
+    canBeOverflowed = false
+}
 
 function setSquareColors() {
     if (document.body.className == '') {
@@ -61,10 +66,12 @@ var victorySound = new Audio()
 victorySound.src = 'music/victory.mp3'
 victorySound.volume = .2
 
-if (lastModeIndex == 0)
-    document.body.style.overflowY = 'hidden'
-else if (lastModeIndex == 1)
-    document.body.style.removeProperty('overflow-y')
+if (canBeOverflowed) {
+    if (lastModeIndex == 0)
+        document.body.style.overflowY = 'hidden'
+    else if (lastModeIndex == 1)
+        document.body.style.removeProperty('overflow-y')
+}
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))
@@ -1171,14 +1178,18 @@ function changeMode(modeIndex) {
               undoBlock = document.querySelector('.undo-block')
 
         if (modeIndex == 0) {
-            document.body.style.overflowY = 'hidden'
-            scoreTitle.innerText = 'Best'
+            if (canBeOverflowed)
+                document.body.style.overflowY = 'hidden'
+            
+                scoreTitle.innerText = 'Best'
             undoBlock.style.opacity = '1'
             isUndo = true
         }
 
         else if (modeIndex == 1) {
-            document.body.style.removeProperty('overflow-y')
+            if (canBeOverflowed)
+                document.body.style.removeProperty('overflow-y')
+            
             scoreTitle.innerText = 'AI Score'
             undoBlock.style.opacity = '0'
             isUndo = false

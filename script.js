@@ -988,10 +988,6 @@ function startingSwipe(event) {
     var isUndoBlock = false,
         el = event.target
 
-    if (event.touches.length > 1) {
-        console.log('hi')
-    }
-
     else {
         for (var i = 0; i < 3; i++) {
             if (el.className == 'undo-block')
@@ -1125,6 +1121,7 @@ function changeTheme(themeIndex) {
         else if (themeIndex == 2) {
             angle = 45
             document.body.style.backgroundImage = `linear-gradient(${angle}deg, #145567, #5eb252)`
+            document.body.style.backgroundSize = `100vw ${document.body.scrollHeight}px`
 
             document.body.className = 'colorful'
             leftSide.classList.add('hid')
@@ -1181,7 +1178,7 @@ function changeMode(modeIndex) {
             if (canBeOverflowed)
                 document.body.style.overflowY = 'hidden'
             
-                scoreTitle.innerText = 'Best'
+            scoreTitle.innerText = 'Best'
             undoBlock.style.opacity = '1'
             isUndo = true
         }
@@ -1195,7 +1192,9 @@ function changeMode(modeIndex) {
             isUndo = false
         }
 
+        window.scrollTo(0, document.body.offsetHeight)
         lastModeIndex = modeIndex
+
         setScale(2)
         startGame()
     }

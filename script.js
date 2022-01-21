@@ -987,21 +987,19 @@ function checkSquaresPos(_playerIndex_, key) {
 function startingSwipe(event) {
     var isUndoBlock = false,
         el = event.target
+    
+    for (var i = 0; i < 3; i++) {
+        if (el.className == 'undo-block')
+            isUndoBlock = true
+        el = el.parentNode
+    }
 
-    else {
-        for (var i = 0; i < 3; i++) {
-            if (el.className == 'undo-block')
-                isUndoBlock = true
-            el = el.parentNode
-        }
-
-        if (!isUndoBlock && canBeMoved) {
-            currentPlayerSquaresArray = createCurrentPlayerSquaresArray()
-            startedSwipe = [
-                event.touches[0].clientX,
-                event.touches[0].clientY
-            ]
-        }
+    if (!isUndoBlock && canBeMoved) {
+        currentPlayerSquaresArray = createCurrentPlayerSquaresArray()
+        startedSwipe = [
+            event.touches[0].clientX,
+            event.touches[0].clientY
+        ]
     }
 }
 
